@@ -1,5 +1,6 @@
 import json
 import os
+from io import StringIO
 
 import pandas as pd
 from flask import Flask, request
@@ -14,7 +15,7 @@ app.config["DEBUG"] = True
 def train_models():
     # the training input data in the message body as a JSON payload
     training_input = request.get_json()
-    df = pd.read_json(json.dumps(training_input), orient='records')
+    df = pd.read_json(StringIO(json.dumps(training_input)), orient='records')
     resp = model_trainer.train(df.values)
     return resp
 
