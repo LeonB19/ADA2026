@@ -68,12 +68,12 @@ def build_diabetes_predictor(cloud_event):
     scores = model.evaluate(X, Y, verbose=0)
     print("%s: %.2f%%" % (model.metrics_names[1], scores[1] * 100))
     print(model.metrics_names)
-    model_path = os.path.join('/tmp', "model.h5")
+    model_path = os.path.join('/tmp', "model.keras")
     model.save(model_path)
     # Save to GCS
     client = storage.Client(project=project_id)
     bucket = client.get_bucket(model_bucket_name)
-    blob = bucket.blob('model.h5')
+    blob = bucket.blob('model.keras')
     blob.upload_from_filename(model_path)
     # Do clean up
     os.remove(temp_filename)

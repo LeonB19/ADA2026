@@ -38,8 +38,8 @@ def predict_diabetes(cloud_event):
     # Download model
     client = storage.Client(project=project_id)
     bucket = client.get_bucket(model_bucket_name)
-    blob = bucket.blob('model.h5')
-    temp_model_filename = os.path.join('/tmp', 'model.h5')
+    blob = bucket.blob('model.keras')
+    temp_model_filename = os.path.join('/tmp', 'model.keras')
     blob.download_to_filename(temp_model_filename)
     model = load_model(temp_model_filename)
 

@@ -40,7 +40,7 @@ if __name__ == '__main__':
             "si": 0,
             "bmi": 30.1,
             "dpf": 0.349,
-            "age": 47
+            "age": 77
         }
     ]
     data = json.dumps(data).encode("utf-8")
