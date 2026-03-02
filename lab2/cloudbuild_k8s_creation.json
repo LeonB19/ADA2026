@@ -16,7 +16,7 @@
         "standard",
         "--no-enable-basic-auth",
         "--cluster-version",
-        "1.33.5-gke.2118001",
+        "1.34.3-gke.1318000",
         "--release-channel",
         "regular",
         "--machine-type",
