@@ -25,19 +25,20 @@ def get_weather(city: str) -> dict:
     Returns:
         dict: status and result or error msg.
     """
-    if city.lower() == "new york":
+    if city.lower() == "den bosch":
         return {
             "status": "success",
-            "report": (
-                "The weather in New York is sunny with a temperature of 25 degrees"
-                " Celsius (77 degrees Fahrenheit)."
-            ),
+            "report": "The weather in Den Bosch is sunny with 15°C."
         }
-    else:
+    elif city.lower() == "kandy":
         return {
-            "status": "error",
-            "error_message": f"Weather information for '{city}' is not available.",
+            "status": "success",
+            "report": "The weather in New York is sunny with 30°C."
         }
+    return {
+        "status": "error",
+        "error_message": f"Weather for '{city}' unavailable."
+    }
 
 
 def get_current_time(city: str) -> dict:
@@ -47,25 +48,30 @@ def get_current_time(city: str) -> dict:
         city (str): The name of the city for which to retrieve the current time.
 
     Returns:
-        dict: status and result or error msg.
-    """
+        dict: status and result or error msg."""
+    city_timezones = {
+        "den bosch": "Europe/Amsterdam",
+        "london": "Europe/London",
+        "kandy": "Asia/Colombo",
+        "paris": "Europe/Paris"
+    }
 
-    if city.lower() == "new york":
-        tz_identifier = "America/New_York"
-    else:
-        return {
-            "status": "error",
-            "error_message": (
-                f"Sorry, I don't have timezone information for {city}."
-            ),
-        }
+    if city.lower() in city_timezones:
+        try:
+            tz = ZoneInfo(city_timezones[city.lower()])
+            now = datetime.datetime.now(tz)
+            return {
+                "status": "success",
+                "report": f"The current time in {city} is {now.strftime('%Y-%m-%d %H:%M:%S %Z')}"
+            }
+        except Exception as e:
+            print(e)
+            pass
 
-    tz = ZoneInfo(tz_identifier)
-    now = datetime.datetime.now(tz)
-    report = (
-        f'The current time in {city} is {now.strftime("%Y-%m-%d %H:%M:%S %Z%z")}'
-    )
-    return {"status": "success", "report": report}
+    return {
+        "status": "error",
+        "error_message": f"Time information for '{city}' unavailable."
+    }
 
 
 # Step 1: Create a ThinkingConfig
@@ -96,7 +102,15 @@ weather_agent2 = LlmAgent(
                 category=types.HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
                 threshold=types.HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,
             )
-        ]
+        ],
+        http_options=types.HttpOptions(
+            retry_options=types.HttpRetryOptions(
+                initial_delay=1.0,
+                attempts=10,
+                http_status_codes=[408, 429, 500, 502, 503, 504],
+            ),
+            timeout=120 * 1000,
+        )
     )
 )
 
@@ -125,4 +139,4 @@ def call_agent(query):
             print("Agent Response: ", final_response)
 
 
-call_agent("If it's raining in New York right now, what is the current temperature?")
+call_agent("If it's raining in Den Bosch right now, what is the current temperature?")

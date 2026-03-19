@@ -52,7 +52,8 @@ def get_current_time(city: str) -> dict:
                 "status": "success",
                 "report": f"The current time in {city} is {now.strftime('%Y-%m-%d %H:%M:%S %Z')}"
             }
-        except Exception:
+        except Exception as e:
+            print(e)
             pass
 
     return {
