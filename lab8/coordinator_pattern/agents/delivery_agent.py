@@ -11,10 +11,10 @@ tools = McpToolset(
 )
 
 delivery_agent = LlmAgent(
-    name="DeliveryServiceAgent",
+    name="DeliveryAgent",
     model="gemini-2.5-flash-lite",
     description="Agent that manage order deliveries. ",
-    instruction="You are an order delivery management expert specializing in creating, retrieving, updating, and deleting delivery records in the given context.",
+    instruction="You are an order delivery management expert specializing in creating, retrieving, updating, and deleting delivery records.",
     generate_content_config=types.GenerateContentConfig(
         temperature=0.2,  # More deterministic output
         max_output_tokens=1000,
@@ -34,4 +34,5 @@ delivery_agent = LlmAgent(
         )
     ),
     tools=[tools],
+    output_key="delivery_response"
 )

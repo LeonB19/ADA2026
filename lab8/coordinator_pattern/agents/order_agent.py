@@ -11,10 +11,10 @@ tools = McpToolset(
 )
 
 order_agent = LlmAgent(
-    name="OrderRecordServiceAgent",
+    name="OrderAgent",
     model="gemini-2.5-flash-lite",
     description="Agent that manage order records. ",
-    instruction="You are an order record management expert specializing in creating, retrieving, updating, and deleting order records in the given context.",
+    instruction="You are an order management expert specializing in creating, retrieving, updating, and deleting order records.",
     generate_content_config=types.GenerateContentConfig(
         temperature=0.2,  # More deterministic output
         max_output_tokens=1000,
@@ -34,4 +34,5 @@ order_agent = LlmAgent(
         )
     ),
     tools=[tools],
+    output_key="order_response"
 )

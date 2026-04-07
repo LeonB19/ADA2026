@@ -11,12 +11,11 @@ tools = McpToolset(
 )
 
 inventory_agent = LlmAgent(
-    name="InventoryServiceAgent",
+    name="InventoryAgent",
     model="gemini-2.5-flash-lite",
     description="Agent that manage product inventories. ",
     instruction="You are an inventory management expert specializing in filling the inventory by adding products,"
-                " checking product inventories, updating the available quantity or inventory level of products. "
-                "Use the correct tools to perform your tasks.",
+                " checking product inventories, updating the available quantity or inventory level of products. ",
     generate_content_config=types.GenerateContentConfig(
         temperature=0.2,  # More deterministic output
         max_output_tokens=1000,
@@ -36,4 +35,5 @@ inventory_agent = LlmAgent(
         )
     ),
     tools=[tools],
+    output_key="inventory_response"
 )

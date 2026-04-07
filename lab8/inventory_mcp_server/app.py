@@ -11,7 +11,7 @@ product = Product()
 products = Products()
 
 
-@app.post("/products", operation_id="add_product", description="Add a product to the inventory")
+@app.post("/products", operation_id="add_product_to_inventory", description="Add a new product to the inventory")
 def create_products(p_model: ProductModel):
     return products.create(p_model)
 
@@ -21,7 +21,7 @@ def create_products(p_model: ProductModel):
 def get_product(type: str):
     return product.read(type)
 
-@app.put('/products/{type}/quantity', operation_id="update_product_quantity_available",
+@app.put('/products/{type}/ordered_quantity', operation_id="update_product_quantity_available",
          description="Update the available quantity of a product by reducing the ordered quantity. A product has a unique type.")
 def update_product(type: str, ordered_quantity: int):
     return product.update(type, ordered_quantity)
@@ -36,7 +36,7 @@ mcp = FastApiMCP(
     describe_full_response_schema=True,
     # Only expose the endpoints with these operation_ids
     include_operations=[
-        "add_product",
+        "add_product_to_inventory",
         "check_product_inventory",
         "update_product_quantity_available",
     ]
