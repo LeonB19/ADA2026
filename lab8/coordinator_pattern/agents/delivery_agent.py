@@ -6,7 +6,7 @@ from google.genai import types
 load_dotenv()
 tools = McpToolset(
     connection_params=StreamableHTTPConnectionParams(
-        url="http://34.172.150.168:5000/mcp", timeout=600.0
+        url="http://localhost:5000/mcp", timeout=600.0
     ),
     # Select only the tools neededs
     tool_filter=[
